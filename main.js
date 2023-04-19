@@ -24,12 +24,14 @@ document.addEventListener("DOMContentLoaded", function(){
     clear.addEventListener('click', function(){
         display.textContent = '';
         currentValue = '';
+        answer = '';
+        previousValue = '';
     })
 
     equals.addEventListener('click', function(){
         operate();
         display.textContent = answer;
-        
+        currentValue = answer;
     })
 })
 
@@ -43,7 +45,6 @@ function handleOperator(op) {
     operators = op;
     previousValue = currentValue;
     currentValue = '';
-    
 }
 
 
@@ -65,6 +66,4 @@ const operate = function() {
             answer = previousValue /= currentValue;
             break;
     }
-
-    console.log(answer);
 }
