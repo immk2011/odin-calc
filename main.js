@@ -1,5 +1,6 @@
 let currentValue = '';
 let previousValue = '';
+let answer = '';
 
 document.addEventListener("DOMContentLoaded", function(){
     let clear = document.querySelector('#clear');
@@ -15,52 +16,55 @@ document.addEventListener("DOMContentLoaded", function(){
         display.textContent = currentValue;
     }))
 
-    operators.forEach(op => this.addEventListener('click', function(e){
+    operators.forEach(op => op.addEventListener('click', function(e){
         handleOperator(e.target.textContent)
-
+        display.textContent = currentValue;
     }))
+
+    clear.addEventListener('click', function(){
+        display.textContent = '';
+        currentValue = '';
+    })
+
+    equals.addEventListener('click', function(){
+        operate();
+        display.textContent = answer;
+        
+    })
 })
 
 function handleNumber(num) {
-    if(currentValue.length <= 6){
+    if(currentValue.length <= 5){
         currentValue += num;
     }
 }
 
 function handleOperator(op) {
     operators = op;
-
+    previousValue = currentValue;
+    currentValue = '';
+    
 }
 
-const add = function(num1, num2) {
-    return num1 + num2;
-}
 
-const subtract = function(num1, num2) {
-    return num1 - num2;
-}
+const operate = function() {
+   previousValue = Number(previousValue);
+   currentValue = Number(currentValue);
 
-const multiply = function(num1, num2) {
-    return num1 * num2;
-}
-
-const divide = function(num1, num2) {
-    return num1 / num2;
-}
-
-const operate = function(operator, num1, num2) {
-    switch(operator) {
+    switch(operators) {
         case '+':
-            return add(num1, num2);
+            answer = previousValue += currentValue;
             break;
         case '-':
-            return subtract(num1, num2);
+            answer = previousValue -= currentValue;
             break;
         case '*':
-            return multiply(num1, num2);
+            answer = previousValue *= currentValue;
             break;
         case '/':
-            return divide(num1, num2);
+            answer = previousValue /= currentValue;
             break;
     }
+
+    console.log(answer);
 }
